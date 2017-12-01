@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class ReplaySystem : MonoBehaviour {
 
-    private const int bufferFrames = 100;   //NB Const is needed to define array at compile time
+    private const int bufferFrames = 500;   //NB Const is needed to define array at compile time
     private MyKeyFrame[] keyFrames = new MyKeyFrame[bufferFrames];   // Define an array of keyframes
     private Rigidbody rigidBody;
+    private GameManager gameManager;
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
+        gameManager = FindObjectOfType<GameManager>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        Record();
+        if (gameManager.recording)
+        {
+            Record();
+        } else
+        {
+            PlayBack();
+        }
+        
     }
 
     private void PlayBack()
